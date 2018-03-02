@@ -9,11 +9,17 @@ function displayPage(url, desktop) {
   let urlObj = new URL(url);
   element("#browser-domain").textContent = urlObj.hostname;
   element("#desktop").checked = !!desktop;
+  browser.tabs.onUpdated.removeListener(updateHome);
 }
 
 async function displayHome() {
   element("#browser-container").style.display = "none";
   element("#onboarding").style.display = "";
+  browser.tabs.onUpdated.addListener(updateHome);
+  await updateHome();
+}
+
+async function updateHome() {
   const windowInfo = await browser.windows.getCurrent({populate: true});
   const tabList = element("#tabs");
   tabList.innerHTML = "";
