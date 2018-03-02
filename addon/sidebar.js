@@ -48,6 +48,11 @@ element("#home").addEventListener("click", () => {
   displayHome();
 });
 
+element("#reload").addEventListener("click", () => {
+  sendEvent("reload");
+  element("#browser-iframe").src = lastDisplayedUrl;
+});
+
 element("#desktop").addEventListener("change", async (event) => {
   let desktop = event.target.checked;
   await browser.runtime.sendMessage({type: "setDesktop", desktop, url: lastDisplayedUrl});
